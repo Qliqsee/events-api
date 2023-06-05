@@ -28,7 +28,7 @@ export const onboarding = async (req: Request, res: Response, next: NextFunction
 
   const user = {
     ...newUser,
-    id: newUser._id,
+    id: newUser?._id,
     password: undefined,
     __v: undefined,
     _id: undefined,

@@ -14,15 +14,17 @@ declare global {
 }
 
 export const currentUser = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.session?.jwt) {
+  const token = req?.headers?.authorization?.split(" ")[1];
+  if (!token) {
     return next();
   }
 
   try {
-    const payload = jwt.verify(req.session.jwt, config.jwt.secret!) as UserDoc;
+    const payload = jwt.verify(token, config.jwt.secret!) as UserDoc;
     req.currentUser = payload;
   } catch (err) {
     Logger.error(err);
+    return next(new Error());
   }
 
   next();

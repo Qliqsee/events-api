@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
 
 export const current = (req: Request, res: Response) => {
-  res.status(200).send({ currentUser: req.currentUser || null });
+  const currentUser = {
+    ...req.currentUser,
+    iat: undefined,
+  };
+  res.status(200).send({ currentUser: currentUser || null });
 };

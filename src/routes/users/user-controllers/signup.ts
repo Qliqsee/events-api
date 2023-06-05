@@ -25,11 +25,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
     },
   });
 
-  const userJwt = jwt.sign(user, config.jwt.secret);
+  const token = jwt.sign(user, config.jwt.secret, { expiresIn: "1h" });
 
-  req.session = {
-    jwt: userJwt,
-  };
-
-  res.status(201).send(user);
+  res.set("Authorization", `Bearer ${token}`).status(201).send(user);
 };
